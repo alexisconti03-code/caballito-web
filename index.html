@@ -1148,6 +1148,29 @@
     .vino-panel{grid-template-columns:1fr;}
     .nav-status{display:none;}
   }
+
+  /* ===== OPTIMIZACION DE FONDOS CON FOTO EN MOVIL =====
+     background-attachment:fixed obliga al navegador a recalcular y re-renderizar
+     la imagen contra el viewport en cada scroll, lo que en celulares (sobre todo
+     iOS Safari, que ademas no soporta bien "fixed") degrada mucho la nitidez.
+     En pantallas chicas lo pasamos a "scroll" y reducimos el alto minimo forzado
+     para que "cover" no tenga que escalar la imagen de forma tan agresiva. */
+  @media (max-width:768px){
+    .producto-section.vinos-bg,
+    .producto-section.espumantes-bg,
+    .producto-section.whiskys-bg,
+    .producto-section.blancas-bg,
+    .producto-section.licores-bg,
+    .producto-section.aperitivos-bg,
+    .producto-section.vermouth-bg,
+    .producto-section.sinalcohol-bg,
+    .producto-section.cervezas-bg{
+      background-attachment:scroll;
+      background-size:cover;
+      background-position:center top;
+      min-height:auto;
+    }
+  }
 </style>
 </head>
 <body id="top">
