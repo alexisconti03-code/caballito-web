@@ -1153,8 +1153,11 @@
      background-attachment:fixed obliga al navegador a recalcular y re-renderizar
      la imagen contra el viewport en cada scroll, lo que en celulares (sobre todo
      iOS Safari, que ademas no soporta bien "fixed") degrada mucho la nitidez.
-     En pantallas chicas lo pasamos a "scroll" y reducimos el alto minimo forzado
-     para que "cover" no tenga que escalar la imagen de forma tan agresiva. */
+     En pantallas chicas lo pasamos a "scroll". Ademas, "cover" en un contenedor
+     angosto y alto obliga a la foto a escalarse y recortarse mucho respecto del
+     encuadre horizontal que se ve en escritorio: usamos "contain" para conservar
+     la foto completa (con el mismo encuadre) aunque queden franjas del color de
+     fondo del sitio arriba/abajo en vez de recortar botellas o elementos. */
   @media (max-width:768px){
     .producto-section.vinos-bg,
     .producto-section.espumantes-bg,
@@ -1166,8 +1169,9 @@
     .producto-section.sinalcohol-bg,
     .producto-section.cervezas-bg{
       background-attachment:scroll;
-      background-size:cover;
+      background-size:contain;
       background-position:center top;
+      background-color:var(--black);
       min-height:auto;
     }
   }
