@@ -459,6 +459,52 @@
   .prod-row-buy{display:flex; align-items:center; gap:14px; flex-shrink:0;}
   .prod-row-price{font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap;}
   .prod-list-count{font-size:12px; color:var(--chrome-2); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;}
+
+  /* ===== ORDENAR POR ===== */
+  .sort-control{position:relative; display:inline-block; margin-bottom:12px; z-index:5;}
+  .sort-trigger{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--chrome-1);
+    padding:9px 14px;
+    border-radius:100px;
+    font-family:'Work Sans'; font-size:12.5px; font-weight:600; letter-spacing:0.03em;
+    cursor:pointer;
+    transition:border-color .2s ease, background .2s ease, color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .sort-trigger svg{flex-shrink:0;}
+  .sort-trigger:hover{border-color:var(--accent); background:rgba(255,255,255,0.06); color:#fff;}
+  .sort-control.open .sort-trigger{border-color:var(--accent); color:#fff;}
+  .sort-trigger-arrow{margin-left:2px; transition:transform .2s ease; opacity:0.7;}
+  .sort-control.open .sort-trigger-arrow{transform:rotate(180deg);}
+  .sort-menu{
+    position:absolute; top:calc(100% + 8px); left:0; min-width:220px;
+    background:var(--black-2); border:1px solid var(--line); border-radius:6px;
+    padding:6px; display:flex; flex-direction:column; gap:2px;
+    opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s ease;
+    box-shadow:0 20px 45px rgba(0,0,0,0.5);
+  }
+  .sort-control.open .sort-menu{opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0);}
+  .sort-option{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    width:100%; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    color:var(--chrome-1); padding:10px 12px; border-radius:3px;
+    font-family:'Work Sans'; font-size:13px; font-weight:500;
+    transition:background .15s ease, color .15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .sort-option:hover{background:rgba(255,255,255,0.06); color:#fff;}
+  .sort-option.active{color:var(--accent); font-weight:700;}
+  .sort-option .sort-check{opacity:0; font-size:12px;}
+  .sort-option.active .sort-check{opacity:1;}
+  @media (max-width:560px){
+    .sort-trigger{padding:9px 12px; font-size:12px;}
+    .sort-menu{min-width:200px; left:auto; right:0;}
+  }
   .prod-group{margin-bottom:34px;}
   .prod-group:last-child{margin-bottom:0;}
   .prod-group-title{
@@ -1648,12 +1694,12 @@
     </div>
 
     <div class="promo-card reveal">
-      <span class="promo-ribbon">2x1</span>
-      <h3>Cervezas de jueves</h3>
-      <p>Todos los jueves, 2x1 en cervezas. Válido de 10:00 a 23:00.</p>
-      <div class="prod-actions" data-product="Cervezas">
+      <span class="promo-ribbon">Combo</span>
+      <h3>Jäger + 4 Speed</h3>
+      <p>Jägermeister + 4 Speed Unlimited 250ML, la combinación de siempre para la previa.</p>
+      <div class="prod-actions" data-product="Jager + 4 Speed 250ML" data-price="39000">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar al carrito</button>
-        <div class="qty-stepper" data-product="Cervezas" style="display:none;">
+        <div class="qty-stepper" data-product="Jager + 4 Speed 250ML" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -1663,11 +1709,11 @@
 
     <div class="promo-card reveal">
       <span class="promo-ribbon">Combo</span>
-      <h3>Pack Asado</h3>
-      <p>Vino + gaseosa a precio combo. Ideal para acompañar la carne del finde.</p>
-      <div class="prod-actions" data-product="Combo Asado (Vino + Gaseosa)">
+      <h3>Merle + Paso de los Toros</h3>
+      <p>Merle sabor + 1 Paso de los Toros Tónica, para tu trago favorito.</p>
+      <div class="prod-actions" data-product="Merle Sabor + 1 Paso de los Toros Tonica" data-price="15000">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar al carrito</button>
-        <div class="qty-stepper" data-product="Combo Asado (Vino + Gaseosa)" style="display:none;">
+        <div class="qty-stepper" data-product="Merle Sabor + 1 Paso de los Toros Tonica" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -1677,11 +1723,11 @@
 
     <div class="promo-card reveal">
       <span class="promo-ribbon">Combo</span>
-      <h3>Pack Previa</h3>
-      <p>Energizante + jugo a precio combo, para arrancar la noche.</p>
-      <div class="prod-actions" data-product="Combo Previa (Energizante + Jugo)">
+      <h3>Aperol + 2 Cepita 1L</h3>
+      <p>Aperol + 2 Cepita del Valle 1L, ideal para tu spritz de fin de semana.</p>
+      <div class="prod-actions" data-product="Aperol + 2 Cepita 1L" data-price="18500">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar al carrito</button>
-        <div class="qty-stepper" data-product="Combo Previa (Energizante + Jugo)" style="display:none;">
+        <div class="qty-stepper" data-product="Aperol + 2 Cepita 1L" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -1718,7 +1764,7 @@
     <div class="prod-group">
       <button type="button" class="prod-group-title">
         <span>Vinos Tintos</span>
-        <span class="prod-group-count">94 productos</span>
+        <span class="prod-group-count">93 productos</span>
         <svg class="prod-group-arrow" viewBox="0 0 12 8" width="11" height="8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="prod-group-body">
@@ -1925,8 +1971,8 @@
       <div class="prod-row">
         <span class="prod-row-name">Colon Selecto Dulce Fresco 750ML</span>
         <div class="prod-row-buy">
-          <span class="prod-row-price">$3.700</span>
-          <div class="prod-actions" data-product="Colon Selecto Dulce Fresco 750ML" data-price="3700">
+          <span class="prod-row-price">$6.500</span>
+          <div class="prod-actions" data-product="Colon Selecto Dulce Fresco 750ML" data-price="6500">
             <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
             <div class="qty-stepper" data-product="Colon Selecto Dulce Fresco 750ML" style="display:none;">
               <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
@@ -2720,20 +2766,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Putruele Malbec 750ML</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$430</span>
-          <div class="prod-actions" data-product="Putruele Malbec 750ML" data-price="430">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Putruele Malbec 750ML" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       
       <div class="prod-row">
         <span class="prod-row-name">Rutini Cabernet- Malbec 2016 Coleccion 750ML</span>
@@ -3073,7 +3106,7 @@
     <div class="prod-group">
       <button type="button" class="prod-group-title">
         <span>Vinos Blancos</span>
-        <span class="prod-group-count">14 productos</span>
+        <span class="prod-group-count">13 productos</span>
         <svg class="prod-group-arrow" viewBox="0 0 12 8" width="11" height="8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="prod-group-body">
@@ -3164,20 +3197,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Las Perdices Albariño 700ML</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$11.000</span>
-          <div class="prod-actions" data-product="Las Perdices Albariño 700ML" data-price="11000">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Las Perdices Albariño 700ML" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       
       <div class="prod-row">
         <span class="prod-row-name">Lola White Blend 750ML</span>
@@ -4161,7 +4181,7 @@
     <div class="prod-group">
       <button type="button" class="prod-group-title">
         <span>🥤 Gaseosas</span>
-        <span class="prod-group-count">25 productos</span>
+        <span class="prod-group-count">19 productos</span>
         <svg class="prod-group-arrow" viewBox="0 0 12 8" width="11" height="8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="prod-group-body">
@@ -4187,20 +4207,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Coca Cola 2,25 Litros</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$5.850</span>
-          <div class="prod-actions" data-product="Coca Cola 2,25 Litros" data-price="5850">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Coca Cola 2,25 Litros" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       <div class="prod-row">
         <span class="prod-row-name">Coca Cola 2.25L</span>
         <div class="prod-row-buy">
@@ -4215,20 +4222,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Coca Cola S/azucar 2.25L</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$5.850</span>
-          <div class="prod-actions" data-product="Coca Cola S/azucar 2.25L" data-price="5850">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Coca Cola S/azucar 2.25L" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       <div class="prod-row">
         <span class="prod-row-name">Coca Cola Zero 2.25L</span>
         <div class="prod-row-buy">
@@ -4244,34 +4238,8 @@
         </div>
       </div>
       
-      <div class="prod-row">
-        <span class="prod-row-name">Pepsi 2L</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$3.000</span>
-          <div class="prod-actions" data-product="Pepsi 2L" data-price="3000">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Pepsi 2L" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Pepsi Black 2L</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$3.000</span>
-          <div class="prod-actions" data-product="Pepsi Black 2L" data-price="3000">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Pepsi Black 2L" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+      
       <div class="prod-row">
         <span class="prod-row-name">Sprite 2.25L</span>
         <div class="prod-row-buy">
@@ -4286,20 +4254,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Sprite 2.25ML</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$5.850</span>
-          <div class="prod-actions" data-product="Sprite 2.25ML" data-price="5850">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Sprite 2.25ML" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       </div>
           </div>
         </div>
@@ -4354,20 +4309,7 @@
           </div>
         </div>
       </div>
-      <div class="prod-row">
-        <span class="prod-row-name">Pepsi Black Sin Azucar 1.5L</span>
-        <div class="prod-row-buy">
-          <span class="prod-row-price">$3.400</span>
-          <div class="prod-actions" data-product="Pepsi Black Sin Azucar 1.5L" data-price="3400">
-            <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-            <div class="qty-stepper" data-product="Pepsi Black Sin Azucar 1.5L" style="display:none;">
-              <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-              <span class="qty-value">0</span>
-              <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       </div>
           </div>
         </div>
@@ -8188,11 +8130,8 @@
     { name:'Speed 250ML', cat:'Bebidas sin alcohol · Energizantes', price:1900, section:'cat-sinalcohol', outerTab:'energizantes' },
     { name:'Speed 473ML', cat:'Bebidas sin alcohol · Energizantes', price:3100, section:'cat-sinalcohol', outerTab:'energizantes' },
     { name:'7UP 1.5L', cat:'Bebidas sin alcohol · Gaseosas', price:3400, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'15' },
-    { name:'Coca Cola 2,25 Litros', cat:'Bebidas sin alcohol · Gaseosas', price:5850, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'225' },
-    { name:'Coca Cola S/azucar 2.25L', cat:'Bebidas sin alcohol · Gaseosas', price:5850, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'225' },
     { name:'Paso De Los Toros Pomelo 1.5 Ml', cat:'Bebidas sin alcohol · Gaseosas', price:3400, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'15' },
     { name:'Paso De Los Toros Tonica 1.5L', cat:'Bebidas sin alcohol · Gaseosas', price:3400, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'15' },
-    { name:'Sprite 2.25ML', cat:'Bebidas sin alcohol · Gaseosas', price:5850, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'225' },
     { name:'Aconcagua Azul Handcrafted Gin 750ML', cat:'Bebidas Blancas', price:18200, section:'cat-blancas' },
     { name:'Beefeater Pink 750ML', cat:'Bebidas Blancas', price:35060, section:'cat-blancas' },
     { name:'Beefeater 1L', cat:'Bebidas Blancas', price:36330, section:'cat-blancas' },
@@ -8377,7 +8316,6 @@
     { name:'Zuccardi Q Malbec 750ML', cat:'Vinos · Tinto', price:25330, section:'cat-vinos', tab:'tinto' },
     { name:'Altura Malbec Norton 750ML', cat:'Vinos · Tinto', price:16130, section:'cat-vinos', tab:'tinto' },
     { name:'Alambrado Malbec 750ML', cat:'Vinos · Tinto', price:10210, section:'cat-vinos', tab:'tinto' },
-    { name:'Putruele Malbec 750ML', cat:'Vinos · Tinto', price:430, section:'cat-vinos', tab:'tinto' },
     { name:'Grey Goose Essences Watermelon Y Basil 1L', cat:'Bebidas Blancas', price:132000, section:'cat-blancas' },
     { name:'Bottega White Gold 750ML', cat:'Espumantes', price:85000, section:'cat-espumantes' },
     { name:'Saint Felicien Cabernet Sauvignon 750ML', cat:'Vinos · Tinto', price:13520, section:'cat-vinos', tab:'tinto' },
@@ -8391,7 +8329,6 @@
     { name:'Cepita Naranja 1L', cat:'Bebidas sin alcohol · Jugos', price:3200, section:'cat-sinalcohol' },
     { name:'Aconcagua Mini 50ML', cat:'Bebidas Blancas', price:5300, section:'cat-blancas' },
     { name:'Principe De Los Apostoles Fuerza Gaucha 53° 750ML', cat:'Bebidas Blancas', price:20000, section:'cat-blancas' },
-    { name:'Pepsi Black Sin Azucar 1.5L', cat:'Bebidas sin alcohol · Gaseosas', price:3400, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'15' },
     { name:'Gin Rider 750ML', cat:'Bebidas Blancas', price:5900, section:'cat-blancas' },
     { name:'Portillo Rose Malbec 750ML', cat:'Vinos · Rosado', price:5600, section:'cat-vinos', tab:'rosado' },
     { name:'Smirnoff Tropical Fruits 700ML', cat:'Bebidas Blancas', price:11400, section:'cat-blancas' },
@@ -8407,15 +8344,13 @@
     { name:'Salentein Doux Espumante 750 Ml', cat:'Espumantes', price:12500, section:'cat-espumantes' },
     { name:'Fernet Branca Edicion Mundial 750ML', cat:'Aperitivos', price:19800, section:'cat-aperitivos' },
     { name:'Bosque Graft Gin Alta Montaña 500 Ml', cat:'Bebidas Blancas', price:32300, section:'cat-blancas' },
-    { name:'Colon Selecto Dulce Fresco 750ML', cat:'Vinos · Tinto', price:3700, section:'cat-vinos', tab:'tinto' },
+    { name:'Colon Selecto Dulce Fresco 750ML', cat:'Vinos · Tinto', price:6500, section:'cat-vinos', tab:'tinto' },
     { name:'Rutini Extra Brut Metodo Champenoise 750ML', cat:'Espumantes', price:31020, section:'cat-espumantes' },
     { name:'Monsterultra Watermelon 473ML', cat:'Bebidas sin alcohol · Energizantes', price:4400, section:'cat-sinalcohol', outerTab:'energizantes' },
     { name:'Ginkgo Patagonia 500ML', cat:'Cervezas', price:29500, section:'cat-cervezas' },
     { name:'Gin Heredero 700ML', cat:'Bebidas Blancas', price:17200, section:'cat-blancas' },
     { name:'Trapiche Origen Malbec 750ML', cat:'Vinos · Tinto', price:7970, section:'cat-vinos', tab:'tinto' },
     { name:'Gancia Hibiscus Spritz 750', cat:'Aperitivos', price:9200, section:'cat-aperitivos' },
-    { name:'Pepsi 2L', cat:'Bebidas sin alcohol · Gaseosas', price:3000, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'225' },
-    { name:'Pepsi Black 2L', cat:'Bebidas sin alcohol · Gaseosas', price:3000, section:'cat-sinalcohol', outerTab:'gaseosas', tab:'225' },
     { name:'Budweiser Lata 710ML', cat:'Cervezas', price:4125, section:'cat-cervezas' },
     { name:'Quilmes IPA Lata 473ML', cat:'Cervezas', price:2467, section:'cat-cervezas' },
     { name:'Santa Julia Malbec Cabernet Sauvignon 750ML', cat:'Vinos · Tinto', price:7800, section:'cat-vinos', tab:'tinto' },
@@ -8456,7 +8391,6 @@
     { name:'Zuccardi Serie A Torrontes 750ML', cat:'Vinos · Blanco', price:14000, section:'cat-vinos', tab:'blanco' },
     { name:'Gordons Premium Pink 700ML', cat:'Bebidas Blancas', price:23250, section:'cat-blancas' },
     { name:'Patagonia Vera IPA 473 Ml', cat:'Cervezas', price:4083, section:'cat-cervezas' },
-    { name:'Las Perdices Albariño 700ML', cat:'Vinos · Blanco', price:11000, section:'cat-vinos', tab:'blanco' },
     { name:'El Esteco Altimus Gran Vino 750ML', cat:'Vinos · Tinto', price:60000, section:'cat-vinos', tab:'tinto' },
     { name:'Malaria London Dry', cat:'Bebidas Blancas', price:35600, section:'cat-blancas' },
     { name:'Saint Felicien Bonarda 750ML', cat:'Vinos · Tinto', price:38240, section:'cat-vinos', tab:'tinto' },
@@ -8631,6 +8565,90 @@
   }
   skipIntroBtn.addEventListener('click', closeIntro);
   setTimeout(closeIntro, 4200);
+
+  // ===== ORDENAR POR (precio asc/desc, alfabetico) =====
+  (function(){
+    const SORT_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>';
+    const ARROW_ICON = '<svg class="sort-trigger-arrow" viewBox="0 0 12 8" width="10" height="7"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    function getRowPrice(row){
+      const box = row.querySelector('.prod-actions');
+      const raw = box ? box.dataset.price : null;
+      const n = raw ? parseFloat(raw) : NaN;
+      return isNaN(n) ? Infinity : n;
+    }
+    function getRowName(row){
+      const el = row.querySelector('.prod-row-name');
+      return el ? el.textContent.trim() : '';
+    }
+
+    function sortList(list, mode){
+      const rows = Array.from(list.querySelectorAll(':scope > .prod-row'));
+      rows.sort((a, b) => {
+        if(mode === 'price-asc') return getRowPrice(a) - getRowPrice(b);
+        if(mode === 'price-desc') return getRowPrice(b) - getRowPrice(a);
+        if(mode === 'alpha') return getRowName(a).localeCompare(getRowName(b), 'es', { sensitivity:'base' });
+        return 0;
+      });
+      rows.forEach(row => list.appendChild(row));
+    }
+
+    const labels = {
+      'price-asc': 'Precio: menor a mayor',
+      'price-desc': 'Precio: mayor a menor',
+      'alpha': 'Alfabéticamente (A-Z)'
+    };
+
+    document.querySelectorAll('.prod-list').forEach((list, idx) => {
+      // Solo tiene sentido si hay mas de un producto para ordenar
+      if(list.querySelectorAll(':scope > .prod-row').length < 2) return;
+
+      const control = document.createElement('div');
+      control.className = 'sort-control';
+      control.innerHTML = `
+        <button type="button" class="sort-trigger" aria-haspopup="true" aria-expanded="false">
+          ${SORT_ICON}<span class="sort-trigger-label">Ordenar por</span>${ARROW_ICON}
+        </button>
+        <div class="sort-menu">
+          <button type="button" class="sort-option" data-sort="price-asc"><span>Precio: menor a mayor</span><span class="sort-check">✓</span></button>
+          <button type="button" class="sort-option" data-sort="price-desc"><span>Precio: mayor a menor</span><span class="sort-check">✓</span></button>
+          <button type="button" class="sort-option" data-sort="alpha"><span>Alfabéticamente (A-Z)</span><span class="sort-check">✓</span></button>
+        </div>`;
+
+      list.parentNode.insertBefore(control, list);
+
+      const trigger = control.querySelector('.sort-trigger');
+      const label = control.querySelector('.sort-trigger-label');
+      const options = control.querySelectorAll('.sort-option');
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = control.classList.toggle('open');
+        trigger.setAttribute('aria-expanded', isOpen);
+        document.querySelectorAll('.sort-control.open').forEach(c => {
+          if(c !== control){ c.classList.remove('open'); }
+        });
+      });
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const mode = opt.dataset.sort;
+          sortList(list, mode);
+          options.forEach(o => o.classList.remove('active'));
+          opt.classList.add('active');
+          label.textContent = labels[mode];
+          control.classList.remove('open');
+          trigger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!e.target.closest('.sort-control')){
+        document.querySelectorAll('.sort-control.open').forEach(c => c.classList.remove('open'));
+      }
+    });
+  })();
 
   // ===== SUBSECCIONES COLAPSABLES (Vinos Tintos/Blancos/Rosados, Gaseosas/Jugos/Energizantes, medidas) =====
   document.addEventListener('click', (e) => {
