@@ -370,6 +370,14 @@
   .cart-item-name{font-size:15px; font-weight:600; color:var(--cream);}
   .cart-item-price{font-size:12.5px; color:var(--wine-bright); font-weight:600;}
   .cart-footer{padding:22px 24px; border-top:1px solid var(--line);}
+  .cart-reminder{
+    display:flex; flex-direction:column; gap:6px;
+    margin-bottom:16px; padding:12px 14px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:6px;
+  }
+  .cart-reminder span{font-size:11.5px; color:var(--chrome-1); line-height:1.4;}
   .cart-total-row{
     display:flex; justify-content:space-between; margin-bottom:16px;
     font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:var(--chrome-2);
@@ -464,7 +472,26 @@
   .prod-row-name{font-size:13.5px; color:var(--cream); font-weight:500; line-height:1.35;}
   .prod-row-buy{display:flex; align-items:center; gap:14px; flex-shrink:0;}
   .prod-row-price{font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap;}
-  .prod-list-count{font-size:12px; color:var(--chrome-2); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;}
+  .prod-list-count{font-size:12px; color:var(--chrome-2); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em; display:inline-block; margin-right:12px;}
+  .prod-list-toggle{
+    display:inline-flex; align-items:center; gap:7px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--chrome-1);
+    padding:8px 14px;
+    border-radius:100px;
+    font-family:'Work Sans'; font-size:12px; font-weight:600; letter-spacing:0.02em;
+    cursor:pointer;
+    margin-bottom:10px;
+    transition:border-color .2s ease, background .2s ease, color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+    vertical-align:middle;
+  }
+  .prod-list-toggle:hover{border-color:var(--accent); background:rgba(255,255,255,0.06); color:#fff;}
+  .prod-list-toggle svg{transition:transform .25s ease; flex-shrink:0;}
+  .prod-list-toggle.collapsed svg{transform:rotate(-90deg);}
+  .prod-list-collapsible{overflow:hidden; max-height:20000px; transition:max-height .3s ease, opacity .25s ease; opacity:1;}
+  .prod-list-collapsible.collapsed{max-height:0; opacity:0; margin:0;}
 
   /* ===== ORDENAR POR ===== */
   .sort-control{position:relative; display:inline-block; margin-bottom:12px; z-index:5;}
@@ -982,6 +1009,27 @@
     background-size: cover, cover, 55 55;
     background-position: center, center, center;
     background-repeat: no-repeat, no-repeat, repeat;
+  }
+
+  /* ===== FRANJA INFO: retiro / pago / tiempo ===== */
+  .info-strip{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+    gap:10px 28px;
+    padding:14px 5vw;
+    background:var(--black-2);
+    border-bottom:1px solid var(--line);
+    margin-top:65px;
+  }
+  .info-strip-item{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Work Sans'; font-size:12.5px; font-weight:600; color:var(--chrome-1);
+    letter-spacing:0.01em;
+  }
+  .info-strip-item svg{width:15px; height:15px; color:var(--wine-bright); flex-shrink:0;}
+  @media (max-width:640px){
+    .info-strip{gap:8px 18px; padding:12px 5vw; margin-top:70px;}
+    .info-strip-item{font-size:11.5px;}
   }
 
   /* ===== PROMO SLIDER (carrusel de fotos, pantalla completa) ===== */
@@ -1739,12 +1787,32 @@
     <p class="cart-empty">Tu carrito está vacío.<br>Elegí productos y se van a sumar acá.</p>
   </div>
   <div class="cart-footer">
+    <div class="cart-reminder">
+      <span>📍 Retirás en el local, Av. Pedro Goyena 1118, no hacemos envíos</span>
+      <span>⏱ Lo armamos en 5 minutos</span>
+      <span>💳 Efectivo, transferencia o tarjeta</span>
+    </div>
     <div class="cart-total-row"><span>Productos</span><span id="cartTotalCount">0</span></div>
     <div class="cart-total-row" id="cartTotalMoneyRow" style="display:none;"><span>Total estimado</span><span id="cartTotalMoney">$0</span></div>
     <a class="btn btn-primary cart-checkout disabled" id="cartCheckout" href="#" target="_blank" rel="noopener">Finalizar pedido por WhatsApp</a>
     <a class="cart-review-link" href="https://www.google.com/maps?cid=4826976578742633089" target="_blank" rel="noopener">¿Ya pediste antes? Calificanos en Google ⭐</a>
   </div>
 </aside>
+
+<div class="info-strip">
+  <div class="info-strip-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <span>Retirás en el local, Av. Pedro Goyena 1118 · No hacemos envíos</span>
+  </div>
+  <div class="info-strip-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+    <span>Efectivo, transferencia o tarjeta</span>
+  </div>
+  <div class="info-strip-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+    <span>Lo armamos en 5 minutos</span>
+  </div>
+</div>
 
 <section class="promo-slider" id="promoSlider">
   <div class="promo-slider-wrap">
@@ -8588,9 +8656,7 @@
     <div class="pour-text reveal">
       <span class="eyebrow">Sobre Bberaz</span>
       <h2>Tu tienda de bebidas en Caballito</h2>
-      <p>En Bberaz creemos que una buena bebida es mucho más que una botella: es parte de una juntada, un festejo, una cena o simplemente ese momento que merece disfrutarse.</p>
-      <p>Nacimos con la idea de ofrecer variedad, buenos precios y una atención cercana, para que siempre encuentres una opción para cada ocasión. Contamos con una amplia selección de vinos, cervezas, espumantes, whiskies, aperitivos, licores, bebidas sin alcohol y mucho más, combinando clásicos de siempre con nuevas propuestas.</p>
-      <p>Trabajamos todos los días para seguir creciendo, sumar productos y brindarte una experiencia simple y cómoda, tanto al elegir como al comprar. Queremos que Bberaz sea ese lugar donde sabés que vas a encontrar variedad, calidad y buenas opciones en un mismo lugar.</p>
+      <p>En Bberaz creemos que una buena bebida es parte de cada juntada, festejo o cena. Por eso ofrecemos una amplia variedad —vinos, cervezas, espumantes, whiskies y mucho más— a buen precio y con atención cercana, sumando productos todos los días.</p>
       <p>Porque detrás de cada brindis hay un momento para compartir.<br>Vos elegís la ocasión, nosotros ponemos las bebidas. 🥂</p>
       <div class="stat-row">
         <div class="stat"><b>10+</b><span>Categorías de producto</span></div>
@@ -9424,6 +9490,36 @@
       if(!e.target.closest('.sort-control')){
         document.querySelectorAll('.sort-control.open').forEach(c => c.classList.remove('open'));
       }
+    });
+  })();
+
+  // ===== COLAPSAR LISTA COMPLETA (Whiskys, Espumantes, Cervezas, Aperitivos, Licores, Vermouth) =====
+  // Estas categorias no tienen subsecciones (no usan .prod-group), asi que agregamos
+  // un boton para achicar la lista si alguien no quiere verla entera.
+  // Arranca MOSTRANDO los productos (como antes); el boton permite ocultarlos.
+  (function(){
+    document.querySelectorAll('.prod-list-count').forEach(countEl => {
+      const list = countEl.parentElement.querySelector(':scope > .prod-list');
+      if(!list) return;
+
+      // envolver la lista en un contenedor colapsable (arranca abierto)
+      const wrapper = document.createElement('div');
+      wrapper.className = 'prod-list-collapsible';
+      list.parentNode.insertBefore(wrapper, list);
+      wrapper.appendChild(list);
+
+      // boton para mostrar menos / ver productos de nuevo
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'prod-list-toggle';
+      btn.innerHTML = '<span class="prod-list-toggle-label">Mostrar menos</span><svg viewBox="0 0 12 8" width="11" height="8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      countEl.insertAdjacentElement('afterend', btn);
+
+      btn.addEventListener('click', () => {
+        const isCollapsed = wrapper.classList.toggle('collapsed');
+        btn.classList.toggle('collapsed', isCollapsed);
+        btn.querySelector('.prod-list-toggle-label').textContent = isCollapsed ? 'Ver productos' : 'Mostrar menos';
+      });
     });
   })();
 
