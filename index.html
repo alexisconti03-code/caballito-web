@@ -1165,13 +1165,6 @@
   }
   .promo-subgroup-title-big:first-of-type{margin-top:0;}
   .promo-subgroup-count{color:var(--chrome-2); font-weight:500; text-transform:none; letter-spacing:0;}
-  .promo-items-list{
-    max-width:1400px; margin:0 auto;
-    display:grid; grid-template-columns:repeat(5, 1fr); gap:1px;
-    background:var(--line);
-    border:1px solid var(--line); border-radius:6px;
-    overflow:hidden;
-  }
   .promo-item{
     position:relative;
     display:flex; flex-direction:column; gap:8px;
@@ -1179,6 +1172,8 @@
     padding:18px 16px 14px;
     background:linear-gradient(160deg, var(--black-2) 0%, #170d0f 100%);
     border-top:3px solid var(--wine-bright);
+    border:1px solid var(--line); border-top:3px solid var(--wine-bright);
+    border-radius:6px;
     transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
   }
   .promo-item:hover{
@@ -1192,7 +1187,7 @@
     background:var(--wine-bright); color:#fff;
     font-family:'Anton'; font-size:11px; letter-spacing:0.02em;
     padding:4px 9px;
-    border-radius:0 0 0 6px;
+    border-radius:0 6px 0 6px;
   }
   .promo-item-info{display:flex; flex-direction:column; gap:5px; width:100%;}
   .promo-item-name{font-family:'Work Sans'; font-weight:700; font-size:12.5px; color:#fff; line-height:1.3; padding-right:34px;}
@@ -1205,8 +1200,57 @@
   .promo-item .prod-actions{width:100%;}
   .promo-item .add-to-cart{width:100%; padding:9px 10px; font-size:11px;}
   .promo-item .qty-stepper{width:100%; justify-content:center;}
+
+  /* ===== CARRUSEL PAGINADO DE PROMOS (2x2 en celular, 5x4 en escritorio) ===== */
+  .promo-carousel{
+    max-width:1400px; width:100%; margin:0 auto; box-sizing:border-box;
+    display:flex; align-items:stretch; gap:10px;
+  }
+  .promo-carousel-viewport{flex:1 1 0%; overflow:hidden; min-width:0;}
+  .promo-carousel-track{
+    display:flex; width:100%;
+    scroll-snap-type:x mandatory;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .promo-carousel-track::-webkit-scrollbar{display:none;}
+  .promo-carousel-page{
+    flex:0 0 100%; scroll-snap-align:start;
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    grid-template-rows:repeat(4, 1fr);
+    gap:10px;
+  }
+  .promo-carousel-page .promo-item{height:100%; min-width:0; overflow:hidden;}
+  .promo-carousel-page{min-width:0;}
+  .promo-carousel-track{min-width:0;}
+  .promo-carousel-arrow{
+    flex-shrink:0; align-self:center;
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    border:1px solid var(--line);
+    color:#fff; font-size:22px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .2s ease, border-color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .promo-carousel-arrow:hover{background:rgba(255,255,255,0.12); border-color:var(--wine-bright);}
+  .promo-carousel-arrow:disabled{opacity:0.3; cursor:default; pointer-events:none;}
+  .promo-carousel-dots{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top:18px;
+  }
+  .promo-carousel-dots button{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--line); border:none; padding:0; cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .promo-carousel-dots button.active{background:var(--wine-bright); transform:scale(1.3);}
   @media (max-width:768px){
-    .promo-items-list{grid-template-columns:repeat(2, 1fr);}
+    .promo-carousel-page{grid-template-columns:repeat(2, 1fr); grid-template-rows:repeat(2, 1fr);}
+    .promo-carousel-arrow{width:36px; height:36px; font-size:18px;}
   }
   @media (max-width:560px){
     .promo-item{padding:12px;}
@@ -1954,91 +1998,23 @@
   </div>
   <h3 class="promo-items-title reveal">🔥 También con descuento</h3>
 
-  <div class="promo-items-list reveal">
+  <div class="promo-carousel" id="promoCarousel">
+    <button class="promo-carousel-arrow prev" id="promoCarouselPrev" aria-label="Anterior">‹</button>
+    <div class="promo-carousel-viewport">
+      <div class="promo-carousel-track" id="promoCarouselTrack">
+        <div class="promo-carousel-staging" id="promoCarouselStaging" style="display:none;">
 <div class="promo-item">
-      <span class="promo-item-badge">-19%</span>
+      <span class="promo-item-badge">-27%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Trumpeter</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d4af6a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 6c3 2 4 5 3 8H7c-1-3 0-6 3-8L9 3Z"/><path d="M7 21h10"/></svg></span><span class="promo-item-name">Chandon (cualquier sabor)</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$10.800</span>
-          <span class="promo-item-after">$8.800</span>
+          <span class="promo-item-before">$23.900</span>
+          <span class="promo-item-after">$17.500</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Trumpeter - Promo" data-price="8800">
+      <div class="prod-actions" data-product="Chandon (cualquier sabor) - Promo" data-price="17500">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Trumpeter - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-20%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Otro Loco Más Malbec</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$4.500</span>
-          <span class="promo-item-after">$3.600</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Otro Loco Más Malbec - Promo" data-price="3600">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Otro Loco Más Malbec - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-11%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Rutini</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$17.200</span>
-          <span class="promo-item-after">$15.300</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Rutini - Promo" data-price="15300">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Rutini - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-14%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Portillo Cabernet Sauvignon</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$5.600</span>
-          <span class="promo-item-after">$4.800</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Portillo Cabernet Sauvignon - Promo" data-price="4800">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Portillo Cabernet Sauvignon - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-25%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Alma Mora</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$6.500</span>
-          <span class="promo-item-after">$4.900</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Alma Mora - Promo" data-price="4900">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Alma Mora - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Chandon (cualquier sabor) - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2064,17 +2040,71 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-24%</span>
+      <span class="promo-item-badge">-26%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Nicasia Vineyards Red Blend</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">D.V. Catena</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$9.700</span>
-          <span class="promo-item-after">$7.400</span>
+          <span class="promo-item-before">$22.200</span>
+          <span class="promo-item-after">$16.500</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Nicasia Vineyards Red Blend - Promo" data-price="7400">
+      <div class="prod-actions" data-product="D.V. Catena - Promo" data-price="16500">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Nicasia Vineyards Red Blend - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="D.V. Catena - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-26%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Gordon&#x27;s London Dry Gin</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$20.200</span>
+          <span class="promo-item-after">$15.000</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Gordon&#x27;s London Dry Gin - Promo" data-price="15000">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Gordon&#x27;s London Dry Gin - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-26%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Jägermeister 700ML</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$43.000</span>
+          <span class="promo-item-after">$32.000</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Jägermeister 700ML - Promo" data-price="32000">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Jägermeister 700ML - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-25%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Alma Mora</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$6.500</span>
+          <span class="promo-item-after">$4.900</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Alma Mora - Promo" data-price="4900">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Alma Mora - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2118,17 +2148,17 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-26%</span>
+      <span class="promo-item-badge">-25%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">D.V. Catena</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Beefeater London Dry Gin</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$22.200</span>
-          <span class="promo-item-after">$16.500</span>
+          <span class="promo-item-before">$30.500</span>
+          <span class="promo-item-after">$23.000</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="D.V. Catena - Promo" data-price="16500">
+      <div class="prod-actions" data-product="Beefeater London Dry Gin - Promo" data-price="23000">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="D.V. Catena - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Beefeater London Dry Gin - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2136,17 +2166,53 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-27%</span>
+      <span class="promo-item-badge">-25%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d4af6a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 6c3 2 4 5 3 8H7c-1-3 0-6 3-8L9 3Z"/><path d="M7 21h10"/></svg></span><span class="promo-item-name">Chandon (cualquier sabor)</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Baileys</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$23.900</span>
-          <span class="promo-item-after">$17.500</span>
+          <span class="promo-item-before">$45.000</span>
+          <span class="promo-item-after">$33.800</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Chandon (cualquier sabor) - Promo" data-price="17500">
+      <div class="prod-actions" data-product="Baileys - Promo" data-price="33800">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Chandon (cualquier sabor) - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Baileys - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-24%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Nicasia Vineyards Red Blend</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$9.700</span>
+          <span class="promo-item-after">$7.400</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Nicasia Vineyards Red Blend - Promo" data-price="7400">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Nicasia Vineyards Red Blend - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-24%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b9762f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="14" height="11" rx="1.5"/><path d="M8 9V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3"/><rect x="9" y="12" width="3" height="3"/></svg></span><span class="promo-item-name">Johnnie Walker Red Label</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$44.700</span>
+          <span class="promo-item-after">$34.000</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Johnnie Walker Red Label - Promo" data-price="34000">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Johnnie Walker Red Label - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2172,6 +2238,96 @@
       </div>
     </div>
 <div class="promo-item">
+      <span class="promo-item-badge">-21%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Bombay Sapphire</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$41.000</span>
+          <span class="promo-item-after">$32.500</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Bombay Sapphire - Promo" data-price="32500">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Bombay Sapphire - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-21%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 2v14a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7l2-2V2Z"/><path d="M8 12h8"/></svg></span><span class="promo-item-name">Smirnoff Sabores</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$11.400</span>
+          <span class="promo-item-after">$9.000</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Smirnoff Sabores - Promo" data-price="9000">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Smirnoff Sabores - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-20%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Otro Loco Más Malbec</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$4.500</span>
+          <span class="promo-item-after">$3.600</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Otro Loco Más Malbec - Promo" data-price="3600">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Otro Loco Más Malbec - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-19%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Trumpeter</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$10.800</span>
+          <span class="promo-item-after">$8.800</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Trumpeter - Promo" data-price="8800">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Trumpeter - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-18%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Acóncagua Gin Sabores</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$22.500</span>
+          <span class="promo-item-after">$18.500</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Acóncagua Gin Sabores - Promo" data-price="18500">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Acóncagua Gin Sabores - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
       <span class="promo-item-badge">-17%</span>
       <div class="promo-item-info">
         <div class="promo-item-header"><span class="promo-item-icon" style="color:#d4af6a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 6c3 2 4 5 3 8H7c-1-3 0-6 3-8L9 3Z"/><path d="M7 21h10"/></svg></span><span class="promo-item-name">Federico de Alvear Extra Dulce</span></div>
@@ -2183,6 +2339,60 @@
       <div class="prod-actions" data-product="Federico de Alvear Extra Dulce - Promo" data-price="5000">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
         <div class="qty-stepper" data-product="Federico de Alvear Extra Dulce - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-17%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 2v14a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7l2-2V2Z"/><path d="M8 12h8"/></svg></span><span class="promo-item-name">Smirnoff Vodka Nº21</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$10.200</span>
+          <span class="promo-item-after">$8.500</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Smirnoff Vodka Nº21 - Promo" data-price="8500">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Smirnoff Vodka Nº21 - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-17%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d9a441;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8Z"/><path d="M15 10h1.5A1.5 1.5 0 0 1 18 11.5v2A1.5 1.5 0 0 1 16.5 15H15"/><path d="M9 8V5a1 1 0 0 1 1-1h1"/></svg></span><span class="promo-item-name">Corona Porrones x6</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$22.300</span>
+          <span class="promo-item-after">$18.500</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Corona Porrones x6 - Promo" data-price="18500">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Corona Porrones x6 - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-16%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Amarula</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$38.100</span>
+          <span class="promo-item-after">$32.000</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Amarula - Promo" data-price="32000">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Amarula - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2226,17 +2436,17 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-24%</span>
+      <span class="promo-item-badge">-14%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b9762f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="14" height="11" rx="1.5"/><path d="M8 9V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3"/><rect x="9" y="12" width="3" height="3"/></svg></span><span class="promo-item-name">Johnnie Walker Red Label</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Portillo Cabernet Sauvignon</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$44.700</span>
-          <span class="promo-item-after">$34.000</span>
+          <span class="promo-item-before">$5.600</span>
+          <span class="promo-item-after">$4.800</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Johnnie Walker Red Label - Promo" data-price="34000">
+      <div class="prod-actions" data-product="Portillo Cabernet Sauvignon - Promo" data-price="4800">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Johnnie Walker Red Label - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Portillo Cabernet Sauvignon - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2244,179 +2454,17 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-6%</span>
+      <span class="promo-item-badge">-14%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Acóncagua London Dry Gin</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d9a441;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8Z"/><path d="M15 10h1.5A1.5 1.5 0 0 1 18 11.5v2A1.5 1.5 0 0 1 16.5 15H15"/><path d="M9 8V5a1 1 0 0 1 1-1h1"/></svg></span><span class="promo-item-name">Andes Sabores x6</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$17.800</span>
-          <span class="promo-item-after">$16.800</span>
+          <span class="promo-item-before">$18.500</span>
+          <span class="promo-item-after">$16.000</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Acóncagua London Dry Gin - Promo" data-price="16800">
+      <div class="prod-actions" data-product="Andes Sabores x6 - Promo" data-price="16000">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Acóncagua London Dry Gin - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-25%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Beefeater London Dry Gin</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$30.500</span>
-          <span class="promo-item-after">$23.000</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Beefeater London Dry Gin - Promo" data-price="23000">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Beefeater London Dry Gin - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-26%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Gordon&#x27;s London Dry Gin</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$20.200</span>
-          <span class="promo-item-after">$15.000</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Gordon&#x27;s London Dry Gin - Promo" data-price="15000">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Gordon&#x27;s London Dry Gin - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-21%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Bombay Sapphire</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$41.000</span>
-          <span class="promo-item-after">$32.500</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Bombay Sapphire - Promo" data-price="32500">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Bombay Sapphire - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-18%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Acóncagua Gin Sabores</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$22.500</span>
-          <span class="promo-item-after">$18.500</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Acóncagua Gin Sabores - Promo" data-price="18500">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Acóncagua Gin Sabores - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-17%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 2v14a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7l2-2V2Z"/><path d="M8 12h8"/></svg></span><span class="promo-item-name">Smirnoff Vodka Nº21</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$10.200</span>
-          <span class="promo-item-after">$8.500</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Smirnoff Vodka Nº21 - Promo" data-price="8500">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Smirnoff Vodka Nº21 - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-21%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 2v14a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7l2-2V2Z"/><path d="M8 12h8"/></svg></span><span class="promo-item-name">Smirnoff Sabores</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$11.400</span>
-          <span class="promo-item-after">$9.000</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Smirnoff Sabores - Promo" data-price="9000">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Smirnoff Sabores - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-26%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Jägermeister 700ML</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$43.000</span>
-          <span class="promo-item-after">$32.000</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Jägermeister 700ML - Promo" data-price="32000">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Jägermeister 700ML - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-16%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Amarula</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$38.100</span>
-          <span class="promo-item-after">$32.000</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Amarula - Promo" data-price="32000">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Amarula - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
-      <span class="promo-item-badge">-25%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#a1477a;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v4l-4 4-4-4V2Z"/><path d="M12 10v12"/><path d="M8 22h8"/></svg></span><span class="promo-item-name">Baileys</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$45.000</span>
-          <span class="promo-item-after">$33.800</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Baileys - Promo" data-price="33800">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Baileys - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Andes Sabores x6 - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -2442,24 +2490,6 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-17%</span>
-      <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d9a441;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8Z"/><path d="M15 10h1.5A1.5 1.5 0 0 1 18 11.5v2A1.5 1.5 0 0 1 16.5 15H15"/><path d="M9 8V5a1 1 0 0 1 1-1h1"/></svg></span><span class="promo-item-name">Corona Porrones x6</span></div>
-        <div class="promo-item-prices">
-          <span class="promo-item-before">$22.300</span>
-          <span class="promo-item-after">$18.500</span>
-        </div>
-      </div>
-      <div class="prod-actions" data-product="Corona Porrones x6 - Promo" data-price="18500">
-        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Corona Porrones x6 - Promo" style="display:none;">
-          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
-          <span class="qty-value">0</span>
-          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
-        </div>
-      </div>
-    </div>
-<div class="promo-item">
       <span class="promo-item-badge">-12%</span>
       <div class="promo-item-info">
         <div class="promo-item-header"><span class="promo-item-icon" style="color:#d9a441;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8Z"/><path d="M15 10h1.5A1.5 1.5 0 0 1 18 11.5v2A1.5 1.5 0 0 1 16.5 15H15"/><path d="M9 8V5a1 1 0 0 1 1-1h1"/></svg></span><span class="promo-item-name">Andes Rubia x6</span></div>
@@ -2478,24 +2508,47 @@
       </div>
     </div>
 <div class="promo-item">
-      <span class="promo-item-badge">-14%</span>
+      <span class="promo-item-badge">-11%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#d9a441;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8Z"/><path d="M15 10h1.5A1.5 1.5 0 0 1 18 11.5v2A1.5 1.5 0 0 1 16.5 15H15"/><path d="M9 8V5a1 1 0 0 1 1-1h1"/></svg></span><span class="promo-item-name">Andes Sabores x6</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">Rutini</span></div>
         <div class="promo-item-prices">
-          <span class="promo-item-before">$18.500</span>
-          <span class="promo-item-after">$16.000</span>
+          <span class="promo-item-before">$17.200</span>
+          <span class="promo-item-after">$15.300</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="Andes Sabores x6 - Promo" data-price="16000">
+      <div class="prod-actions" data-product="Rutini - Promo" data-price="15300">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="Andes Sabores x6 - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="Rutini - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
         </div>
       </div>
     </div>
+<div class="promo-item">
+      <span class="promo-item-badge">-6%</span>
+      <div class="promo-item-info">
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#7d93a8;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-3 3v9h-2v-9l-3-3 1-4Z"/></svg></span><span class="promo-item-name">Acóncagua London Dry Gin</span></div>
+        <div class="promo-item-prices">
+          <span class="promo-item-before">$17.800</span>
+          <span class="promo-item-after">$16.800</span>
+        </div>
+      </div>
+      <div class="prod-actions" data-product="Acóncagua London Dry Gin - Promo" data-price="16800">
+        <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
+        <div class="qty-stepper" data-product="Acóncagua London Dry Gin - Promo" style="display:none;">
+          <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+    <button class="promo-carousel-arrow next" id="promoCarouselNext" aria-label="Siguiente">›</button>
   </div>
+  <div class="promo-carousel-dots" id="promoCarouselDots"></div>
 
 
   <p class="promo-note">* Promos ilustrativas. Contanos las reales y las actualizamos con precios y condiciones exactas.</p>
@@ -8895,6 +8948,95 @@
   document.querySelectorAll('.btn, .badge-link, .nav-cta, .wa-float').forEach(el=>{
     el.addEventListener('click', (e)=> addRipple(el, e));
   });
+
+  // ===== CARRUSEL PAGINADO DE PROMOS (Agosto Hot Sale) =====
+  (function(){
+    const staging = document.getElementById('promoCarouselStaging');
+    const track = document.getElementById('promoCarouselTrack');
+    const prevBtn = document.getElementById('promoCarouselPrev');
+    const nextBtn = document.getElementById('promoCarouselNext');
+    const dotsWrap = document.getElementById('promoCarouselDots');
+    if(!staging || !track) return;
+
+    const allItems = Array.from(staging.children);
+    let currentPage = 0;
+
+    function itemsPerPage(){
+      return window.innerWidth <= 768 ? 4 : 20;
+    }
+
+    function build(){
+      const perPage = itemsPerPage();
+      track.innerHTML = '';
+      const pages = [];
+      for(let i = 0; i < allItems.length; i += perPage){
+        pages.push(allItems.slice(i, i + perPage));
+      }
+      pages.forEach(pageItems => {
+        const pageEl = document.createElement('div');
+        pageEl.className = 'promo-carousel-page';
+        pageItems.forEach(item => pageEl.appendChild(item));
+        track.appendChild(pageEl);
+      });
+
+      dotsWrap.innerHTML = '';
+      pages.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Ver pagina ${i+1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      currentPage = 0;
+      updateUI();
+    }
+
+    function updateUI(){
+      const dots = dotsWrap.querySelectorAll('button');
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentPage));
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === dots.length - 1;
+    }
+
+    function goTo(pageIndex){
+      const pageWidth = track.clientWidth;
+      track.scrollTo({ left: pageWidth * pageIndex, behavior: 'smooth' });
+      currentPage = pageIndex;
+      updateUI();
+    }
+
+    prevBtn.addEventListener('click', () => { if(currentPage > 0) goTo(currentPage - 1); });
+    nextBtn.addEventListener('click', () => {
+      const total = dotsWrap.querySelectorAll('button').length;
+      if(currentPage < total - 1) goTo(currentPage + 1);
+    });
+
+    let scrollTimeout;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const pageWidth = track.clientWidth;
+        currentPage = Math.round(track.scrollLeft / pageWidth);
+        updateUI();
+      }, 100);
+    });
+
+    let resizeTimeout;
+    let lastIsMobile = window.innerWidth <= 768;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const isMobile = window.innerWidth <= 768;
+        if(isMobile !== lastIsMobile){
+          lastIsMobile = isMobile;
+          build();
+        }
+      }, 200);
+    });
+
+    build();
+  })();
 
   // ===== PROMO SLIDER =====
   (function(){
