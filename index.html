@@ -1424,6 +1424,17 @@
       border:1px solid var(--line); color:var(--chrome-1);
       white-space:nowrap;
     }
+    .mobile-toolbar-actions{display:flex; align-items:center; gap:8px;}
+    .mobile-location-btn{
+      display:flex; align-items:center; justify-content:center;
+      width:34px; height:34px; border-radius:50%;
+      background:rgba(255,255,255,0.05);
+      border:1px solid var(--line);
+      color:#fff; flex-shrink:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .mobile-location-btn svg{width:16px; height:16px;}
+    .mobile-location-btn:active{background:rgba(255,255,255,0.12); border-color:var(--wine-bright);}
     .mobile-cat-dropdown{position:relative;}
     .mobile-cat-trigger{
       display:flex; align-items:center; gap:6px;
@@ -1896,22 +1907,27 @@
 
 <div class="mobile-toolbar">
   <span class="mobile-status js-status-badge">Consultando horario…</span>
-  <div class="mobile-cat-dropdown" id="mobileCatDropdown">
-    <button class="mobile-cat-trigger" type="button" aria-haspopup="true" aria-expanded="false">
-      <span>Productos</span>
-      <svg class="mobile-cat-arrow" viewBox="0 0 12 8" width="10" height="7"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="mobile-cat-menu">
-      <a href="#cat-vinos" style="--dot:#b3121f;">🍷 Vinos</a>
-      <a href="#cat-whiskey" style="--dot:#b9762f;">🥃 Whiskys</a>
-      <a href="#cat-blancas" style="--dot:#7d93a8;">🥃 Bebidas Blancas</a>
-      <a href="#cat-espumantes" style="--dot:#d4af6a;">🥂 Espumantes</a>
-      <a href="#cat-cervezas" style="--dot:#d9a441;">🍺 Cervezas</a>
-      <a href="#cat-aperitivos" style="--dot:#d9432c;">🍹 Aperitivos</a>
-      <a href="#cat-licores" style="--dot:#a1477a;">🍸 Licores</a>
-      <a href="#cat-vermouth" style="--dot:#8c2f4b;">🍷 Vermouth</a>
-      <a href="#cat-sinalcohol" style="--dot:#38b6c9;">🥤 Bebidas sin alcohol</a>
-      <a href="#cat-combos" style="--dot:#7a5ea8;">🎁 Combos</a>
+  <div class="mobile-toolbar-actions">
+    <a class="mobile-location-btn" href="#ubicacion" aria-label="Ver ubicación y contacto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    </a>
+    <div class="mobile-cat-dropdown" id="mobileCatDropdown">
+      <button class="mobile-cat-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        <span>Productos</span>
+        <svg class="mobile-cat-arrow" viewBox="0 0 12 8" width="10" height="7"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mobile-cat-menu">
+        <a href="#cat-vinos" style="--dot:#b3121f;">🍷 Vinos</a>
+        <a href="#cat-whiskey" style="--dot:#b9762f;">🥃 Whiskys</a>
+        <a href="#cat-blancas" style="--dot:#7d93a8;">🥃 Bebidas Blancas</a>
+        <a href="#cat-espumantes" style="--dot:#d4af6a;">🥂 Espumantes</a>
+        <a href="#cat-cervezas" style="--dot:#d9a441;">🍺 Cervezas</a>
+        <a href="#cat-aperitivos" style="--dot:#d9432c;">🍹 Aperitivos</a>
+        <a href="#cat-licores" style="--dot:#a1477a;">🍸 Licores</a>
+        <a href="#cat-vermouth" style="--dot:#8c2f4b;">🍷 Vermouth</a>
+        <a href="#cat-sinalcohol" style="--dot:#38b6c9;">🥤 Bebidas sin alcohol</a>
+        <a href="#cat-combos" style="--dot:#7a5ea8;">🎁 Combos</a>
+      </div>
     </div>
   </div>
 </div>
@@ -2078,15 +2094,15 @@
 <div class="promo-item">
       <span class="promo-item-badge">-26%</span>
       <div class="promo-item-info">
-        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">D.V. Catena</span></div>
+        <div class="promo-item-header"><span class="promo-item-icon" style="color:#b3121f;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 5a5 5 0 0 1-4 5v6h2v2H9v-2h2v-6a5 5 0 0 1-4-5l1-5Z"/></svg></span><span class="promo-item-name">D.V. Catena Malbec/Malbec</span></div>
         <div class="promo-item-prices">
           <span class="promo-item-before">$22.200</span>
           <span class="promo-item-after">$16.500</span>
         </div>
       </div>
-      <div class="prod-actions" data-product="D.V. Catena - Promo" data-price="16500">
+      <div class="prod-actions" data-product="D.V. Catena Malbec/Malbec 750ML - Promo" data-price="16500">
         <button class="btn btn-primary btn-sm add-to-cart">Agregar</button>
-        <div class="qty-stepper" data-product="D.V. Catena - Promo" style="display:none;">
+        <div class="qty-stepper" data-product="D.V. Catena Malbec/Malbec 750ML - Promo" style="display:none;">
           <button class="qty-btn" data-action="minus" aria-label="Quitar uno">−</button>
           <span class="qty-value">0</span>
           <button class="qty-btn" data-action="plus" aria-label="Agregar uno">+</button>
@@ -9329,7 +9345,7 @@
     { name:'Angélica Zapata - Promo', cat:'Promo del mes', price:23500, section:'promos' },
     { name:'Andes Rubia x6 - Promo', cat:'Promo del mes', price:15000, section:'promos' },
     { name:'Cordero con Piel de Lobo - Promo', cat:'Promo del mes', price:4300, section:'promos' },
-    { name:'D.V. Catena - Promo', cat:'Promo del mes', price:16500, section:'promos' },
+    { name:'D.V. Catena Malbec/Malbec 750ML - Promo', cat:'Promo del mes', price:16500, section:'promos' },
     { name:'Baileys - Promo', cat:'Promo del mes', price:33800, section:'promos' },
     { name:'Federico de Alvear Extra Dulce - Promo', cat:'Promo del mes', price:5000, section:'promos' },
     { name:'Andes Sabores x6 - Promo', cat:'Promo del mes', price:16000, section:'promos' },
